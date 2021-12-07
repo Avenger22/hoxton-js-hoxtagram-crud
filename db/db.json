@@ -23,9 +23,24 @@
       "title": "Dog",
       "likes": 27,
       "image": "./assets/coder-dog.png"
+    },
+    {
+      "id": 5,
+      "title": "Dog who is interista",
+      "likes": "2389",
+      "image": "./assets/image-placeholder.jpg",
+      "comments": [
+        {
+          "id": 10,
+          "content": "Inter champion of italy",
+          "imageId": 5
+        }
+      ]
+    },
+    {
+      "id": 6
     }
   ],
-
   "comments": [
     {
       "id": 1,
@@ -71,6 +86,16 @@
       "imageId": 4,
       "content": "Hes a good boy!!",
       "id": 9
+    },
+    {
+      "id": 13,
+      "content": "opjeojeoje",
+      "imageId": 5
+    },
+    {
+      "id": 15,
+      "content": "joppoj",
+      "imageId": 5
     }
   ]
 }
