@@ -4,10 +4,7 @@ const sectionPostEl = document.querySelector('section.image-container')
 //--------------------------------------STATE OBJECT---------------------------------------------------
 
 const state = {
-
-    images: [],
-    comments: []
-
+    images: []
 }
 
 //----------------------------------------END OF STATE OBJECT--------------------------------------------------------
@@ -19,16 +16,6 @@ const state = {
 function getImagesDataFromServer() {
 
     return fetch('http://localhost:3000/images').then(function (response) 
-    {
-        return response.json()
-    })
-
-}
-
-//getCommentsDataFromServer :: () => Promise<todos: array> this function gets all comments array stores it in the state
-function getCommentsDataFromServer() {
-
-    return fetch('http://localhost:3000/comments').then(function (response) 
     {
         return response.json()
     })
@@ -106,7 +93,7 @@ function addCommentFromForm(formObjectParam, commentParam) { //removed formparam
 
     addCommentToServer(addComment).then(function(comment) {
         formObjectParam.comments.push(comment)
-        state.comments.push(comment)  //remove one
+        // state.comments.push(comment)
         render()
     })
 
@@ -174,21 +161,22 @@ function getFilteredIdComments() {
 //---------------------------------RENDER FUNCTIONS--------------------------------------------------
 
 //this function renders post, wich itself calls rendePostItem in a for loop to get all from the state, destroy then recreate
-function renderPost(ImagesParam) {
+function renderPost(ImagesArrayParam) {
 
     //we destroy everything then recreate each time it renders the page and state changes
     sectionPostEl.innerHTML = ''
+
+    //recreate using the array to create individual render each post basech on each object inside the array
     renderForm()
 
-    //recreate
-    for (const element of ImagesParam) {
+    for (const element of ImagesArrayParam) {
         renderPostItem(element)
     }
 
 }
 
 //this function renders individually each post item, with DOM and Events manipulation
-function renderPostItem(postParam) {
+function renderPostItem(imagesObjectParam) {
 
     //we create the post card by js from template
     const articleEl = document.createElement('article')
@@ -196,7 +184,7 @@ function renderPostItem(postParam) {
 
     const h2El = document.createElement('h2')
     h2El.setAttribute('class', 'title')
-    h2El.textContent = postParam.title
+    h2El.textContent = imagesObjectParam.title
 
     const removeBtnEl = document.createElement('button')
     removeBtnEl.setAttribute('class', 'remove-btn-post')
@@ -204,14 +192,14 @@ function renderPostItem(postParam) {
 
     const imgEl = document.createElement('img')
     imgEl.setAttribute('class', 'image')
-    imgEl.setAttribute('src', postParam.image)
+    imgEl.setAttribute('src', imagesObjectParam.image)
 
     const divEl = document.createElement('div')
     divEl.setAttribute('class', 'likes-section')
 
     const spanEl = document.createElement('span')
     spanEl.setAttribute('class', 'likes')
-    spanEl.textContent = postParam.likes
+    spanEl.textContent = imagesObjectParam.likes
 
     const btnEl = document.createElement('button')
     btnEl.setAttribute('class', 'like-button')
@@ -234,7 +222,7 @@ function renderPostItem(postParam) {
     const ulEl = document.createElement('ul')
     ulEl.setAttribute('class', 'comments')
 
-    for (const comment of postParam.comments) {
+    for (const comment of imagesObjectParam.comments) {
 
         if (comment.id === undefined) {
             continue
@@ -252,7 +240,7 @@ function renderPostItem(postParam) {
             removeCommentBtnEl.addEventListener('click', function(event) {
 
                 event.preventDefault()
-                removeCommentFromPost(postParam)
+                removeCommentFromPost(imagesObjectParam)
         
             })
 
@@ -275,14 +263,14 @@ function renderPostItem(postParam) {
         event.preventDefault()
 
         inputValue = formEl.comment.value
-        addCommentFromForm(postParam, inputValue)
+        addCommentFromForm(imagesObjectParam, inputValue)
     })
 
     //event listener for like button, increasing etc like in social media
     btnEl.addEventListener('click', function(event) {
         event.preventDefault()
 
-        addLikeFromInput(postParam)
+        addLikeFromInput(imagesObjectParam)
         render()
     })
 
@@ -290,7 +278,7 @@ function renderPostItem(postParam) {
     removeBtnEl.addEventListener('click', function(event) {
         event.preventDefault()
 
-        removeItemFromPost(postParam)
+        removeItemFromPost(imagesObjectParam)
     })
 
 }
@@ -302,7 +290,6 @@ function renderForm() {
     const divEl = document.createElement('div')
     divEl.setAttribute('class', 'post-form')
 
-    //
     const h3El = document.createElement('h3')
     h3El.setAttribute('class', 'post-form-header')
     h3El.textContent = 'New Post'
@@ -324,12 +311,12 @@ function renderForm() {
     inputEl2.setAttribute('type', 'text')
     inputEl2.placeholder = 'Add how many likes: '
 
-    const inputEl3 = document.createElement('input')
-    inputEl3.setAttribute('class', 'post-form-input input-3')
-    inputEl3.setAttribute('name', 'comment')
-    inputEl3.setAttribute('required', 'true')
-    inputEl3.setAttribute('type', 'text')
-    inputEl3.placeholder = 'Add a comment: '
+    // const inputEl3 = document.createElement('input')
+    // inputEl3.setAttribute('class', 'post-form-input input-3')
+    // inputEl3.setAttribute('name', 'comment')
+    // inputEl3.setAttribute('required', 'true')
+    // inputEl3.setAttribute('type', 'text')
+    // inputEl3.placeholder = 'Add a comment: '
 
     const inputEl4 = document.createElement('input')
     inputEl4.setAttribute('class', 'post-form-input input-4')
@@ -342,11 +329,11 @@ function renderForm() {
     btnEl.setAttribute('class', 'post-form-btn')
     btnEl.textContent = 'Post'
 
-    formEl.append(inputEl1, inputEl2, inputEl3, inputEl4, btnEl)
+    formEl.append(inputEl1, inputEl2, inputEl4, btnEl)
     divEl.append(h3El, formEl)
     sectionPostEl.append(divEl)
 
-    // event listeners
+    // event listeners for form input, when all is sumbited the form in the beginning
     formEl.addEventListener('submit', function(event) {
 
         event.preventDefault()
@@ -357,12 +344,13 @@ function renderForm() {
            image: formEl.image.value
         }
 
+        //very crucial, we get things from server then we render, .then promise etc
         addItemFromFormToServer(inputObject).then(function(image) {
 
             state.images.push(image)
-            image.comments = []
+            image.comments = [] //empty array so that is auto created when each post is created and rendered
 
-            render()
+            render() //rerender the page
 
         })
 
@@ -374,7 +362,7 @@ function renderForm() {
 function render() {
 
     console.log('rendering with state:', state)
-    renderPost(state.images)
+    renderPost(state.images) //here we pass the array images 
 
 }
 
@@ -384,11 +372,6 @@ function render() {
 //FETCHING AND STORING DATA FROM SERVER TO STATE both arrays from json server
 getImagesDataFromServer().then(function (imagesFromServer) {
     state.images = imagesFromServer
-    render()
-})
-
-getCommentsDataFromServer().then(function (commentsFromServer) {
-    state.comments = commentsFromServer
     render()
 })
 

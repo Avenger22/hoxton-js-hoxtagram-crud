@@ -24,6 +24,12 @@
       "likes": 22,
       "image": "./assets/image-placeholder.jpg",
       "id": 4
+    },
+    {
+      "title": "iijij",
+      "likes": 22,
+      "image": "./assets/image-placeholder.jpg",
+      "id": 5
     }
   ],
   "comments": [
@@ -126,6 +132,21 @@
       "content": "opoo",
       "imageId": 4,
       "id": 27
+    },
+    {
+      "content": "m;mll;",
+      "imageId": 4,
+      "id": 28
+    },
+    {
+      "content": "okpo",
+      "imageId": 5,
+      "id": 29
+    },
+    {
+      "content": "okpo",
+      "imageId": 5,
+      "id": 30
     }
   ]
 }
