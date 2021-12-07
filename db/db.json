@@ -1,0 +1,139 @@
+{
+  "images": [
+    {
+      "id": 1,
+      "title": "Coder dog",
+      "likes": 7,
+      "image": "./assets/coder-dog.png"
+    },
+    {
+      "id": 2,
+      "title": "Coder cats",
+      "likes": 5,
+      "image": "./assets/coder-cat.jpeg"
+    },
+    {
+      "id": 3,
+      "title": "Dog who is coding js",
+      "likes": 17,
+      "image": "./assets/coder-dog.png"
+    },
+    {
+      "id": 4,
+      "title": "Dog",
+      "likes": 27,
+      "image": "./assets/coder-dog.png"
+    },
+    {
+      "id": 5,
+      "title": "opjojp",
+      "likes": "22",
+      "image": "hioehie"
+    },
+    {
+      "id": 6,
+      "title": "New copy dog",
+      "likes": "235",
+      "image": "./assets/image-placeholder.jpg"
+    },
+    {
+      "id": 7,
+      "title": "eijeij",
+      "likes": "22",
+      "image": "./assets/image-placeholder.jpg",
+      "comments": [
+        {
+          "id": 12,
+          "content": "eee",
+          "imageId": 7
+        }
+      ]
+    },
+    {
+      "id": 8
+    },
+    {
+      "id": 9,
+      "title": "poepoje",
+      "likes": "222",
+      "image": "./assets/image-placeholder.jpg",
+      "comments": [
+        {
+          "id": 14,
+          "content": "e2r3r",
+          "imageId": 9
+        }
+      ]
+    },
+    {
+      "id": 10
+    }
+  ],
+  "comments": [
+    {
+      "id": 1,
+      "content": "What a cute dog!",
+      "imageId": 1
+    },
+    {
+      "id": 2,
+      "content": "He has the paws for this!",
+      "imageId": 2
+    },
+    {
+      "id": 3,
+      "content": "Someone's in trouble!",
+      "imageId": 2
+    },
+    {
+      "imageId": 1,
+      "content": "Funny dog!!",
+      "id": 4
+    },
+    {
+      "imageId": 1,
+      "content": "Hes a good boy!!",
+      "id": 5
+    },
+    {
+      "imageId": 3,
+      "content": "Hes a good boy!!",
+      "id": 6
+    },
+    {
+      "imageId": 3,
+      "content": "Hes a good boy!!",
+      "id": 7
+    },
+    {
+      "imageId": 4,
+      "content": "Hes a good boy!!",
+      "id": 8
+    },
+    {
+      "imageId": 4,
+      "content": "Hes a good boy!!",
+      "id": 9
+    },
+    {
+      "id": 10,
+      "content": "eojeojjeo",
+      "imageId": 6
+    },
+    {
+      "id": 11,
+      "content": "Inter",
+      "imageId": 7
+    },
+    {
+      "id": 12,
+      "content": "ooj",
+      "imageId": 1
+    },
+    {
+      "id": 13,
+      "content": "jtojrojrjorpjo",
+      "imageId": 1
+    }
+  ]
+}
