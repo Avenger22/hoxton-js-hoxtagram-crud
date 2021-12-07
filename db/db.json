@@ -1,43 +1,91 @@
 {
   "images": [
     {
-      "id": 1,
-      "title": "Coder dog",
-      "likes": 7,
-      "image": "./assets/coder-dog.png"
-    },
-    {
       "id": 2,
       "title": "Coder cats",
       "likes": 5,
       "image": "./assets/coder-cat.jpeg"
+    },
+    {
+      "id": 3,
+      "title": "inter",
+      "likes": 222,
+      "image": "./assets/image-placeholder.jpg",
+      "comments": [
+        {
+          "id": 8,
+          "content": "eijejieij",
+          "imageId": 3
+        }
+      ]
+    },
+    {
+      "title": "hiuehihiehie",
+      "likes": 22,
+      "image": "./assets/image-placeholder.jpg",
+      "id": 4
     }
   ],
   "comments": [
-    {
-      "id": 1,
-      "content": "What a cute dog!",
-      "imageId": 1
-    },
-    {
-      "id": 2,
-      "content": "He has the paws for this!",
-      "imageId": 2
-    },
     {
       "id": 3,
       "content": "Someone's in trouble!",
       "imageId": 2
     },
     {
-      "imageId": 1,
-      "content": "Funny dog!!",
-      "id": 4
+      "id": 7,
+      "content": "jijoej",
+      "imageId": 2
     },
     {
-      "imageId": 1,
-      "content": "Hes a good boy!!",
-      "id": 5
+      "id": 9,
+      "content": "ejejpo",
+      "imageId": 3
+    },
+    {
+      "id": 10,
+      "content": "jejee",
+      "imageId": 3
+    },
+    {
+      "content": "jieijeoije",
+      "imageId": 3,
+      "id": 11
+    },
+    {
+      "content": "ejioeijeijo",
+      "imageId": 3,
+      "id": 12
+    },
+    {
+      "content": "opjopjoj",
+      "imageId": 3,
+      "id": 14
+    },
+    {
+      "content": "ijijijo",
+      "imageId": 4,
+      "id": 15
+    },
+    {
+      "content": "ieihhie",
+      "imageId": 4,
+      "id": 16
+    },
+    {
+      "content": "iheiheih",
+      "imageId": 4,
+      "id": 17
+    },
+    {
+      "content": "iihehiihe",
+      "imageId": 3,
+      "id": 18
+    },
+    {
+      "content": "iihehiihe",
+      "imageId": 3,
+      "id": 19
     }
   ]
 }
