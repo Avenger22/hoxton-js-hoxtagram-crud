@@ -97,6 +97,17 @@ function removeItemFromServer(itemParam) {
 
 }
 
+//this function deletes comments from the server wich is user inputed from the x button on the page
+function removeCommentFromServer(itemParam, commentParam) {
+
+    fetch(`http://localhost:3000/comments/${itemParam.id}`, {
+
+        method: 'DELETE'
+
+    })
+
+}
+
 //---------------------------------END OF SERVER FUNCTIONS------------------------------------------------------------------
 
 
@@ -199,6 +210,19 @@ function removeItemFromPost(arrayParam) {
 
 //this function is called with arguments when the btn x is clicked to remove the comment from post  in renderPostItem function
 function removeCommentFromPost(arrayParam) {
+
+    //update the server by removing this entry
+    removeCommentFromServer(arrayParam)
+
+    //update the state
+    delete arrayParam.comments[0]
+    // delete state.comments[arrayParam.id - 1]
+    
+    //update the server by removing this entry
+    // removeItemFromServer(arrayParam)
+
+    //rerender the page
+    render()
 
 }
 
@@ -332,13 +356,13 @@ function renderPostItem(postParam) {
 
     })
 
-    //event listener for remove comment from post
-    // removeCommentBtnEl.addEventListener('click', function(event) {
+    // event listener for remove comment from post
+    removeCommentBtnEl.addEventListener('click', function(event) {
 
-    //     event.preventDefault()
-    //     removeCommentFromPost(postParam)
+        event.preventDefault()
+        removeCommentFromPost(postParam)
         
-    // })
+    })
 
 }
 
