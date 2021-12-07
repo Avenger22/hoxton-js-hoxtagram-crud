@@ -86,6 +86,17 @@ function addItemFromFormToServer(imagesObjectParam) {
 
 }
 
+//this function deletes item from the server wich is user inputed from the x button on the page
+function removeItemFromServer(itemParam) {
+
+    fetch(`http://localhost:3000/images/${itemParam.id}`, {
+
+        method: 'DELETE'
+
+    })
+
+}
+
 //---------------------------------END OF SERVER FUNCTIONS------------------------------------------------------------------
 
 
@@ -126,7 +137,7 @@ function addItemFromFormToState(inputParam1, inputParam2, inputParam3, inputPara
     // let idValue = state.images.length + 1
 
     let objectItemImages = {
-        // id: state.images.length += 1,
+        // id: state.images.length += 1 this didnt work well
         id: state.images.length + 1,
         title: inputParam1,
         likes: inputParam2,
@@ -168,6 +179,30 @@ function addLikeFromInput(likesParamFromArray) {
 
 }
 
+//this function is called with arguments when the btn x is clicked to remove the post from item in renderPostItem function
+function removeItemFromPost(arrayParam) {
+
+    //update the server by removing this entry
+    removeItemFromServer(arrayParam)
+
+    //update the state
+    delete arrayParam.id, arrayParam.title, delete arrayParam.likes, delete arrayParam.comments
+    delete state.comments[arrayParam.id - 1]
+    
+    //update the server by removing this entry
+    // removeItemFromServer(arrayParam)
+
+    //rerender the page
+    render()
+
+} 
+
+//this function is called with arguments when the btn x is clicked to remove the comment from post  in renderPostItem function
+function removeCommentFromPost(arrayParam) {
+
+}
+
+
 //---------------------------------END OF HELPER FUNCTIONS---------------------------------------------------------
 
 
@@ -198,6 +233,10 @@ function renderPostItem(postParam) {
     h2El.setAttribute('class', 'title')
     h2El.textContent = postParam.title
 
+    const removeBtnEl = document.createElement('button')
+    removeBtnEl.setAttribute('class', 'remove-btn-post')
+    removeBtnEl.textContent = 'X'
+
     const imgEl = document.createElement('img')
     imgEl.setAttribute('class', 'image')
     imgEl.setAttribute('src', postParam.image)
@@ -227,20 +266,41 @@ function renderPostItem(postParam) {
     btnFormEl.setAttribute('class', 'btn-element')
     btnFormEl.textContent = 'Post'
 
+    // const removeCommentBtnEl = document.createElement('button')
+    // removeCommentBtnEl.setAttribute('class', 'remove-comment-btn-post')
+    // removeCommentBtnEl.textContent = 'x'
+
     const ulEl = document.createElement('ul')
     ulEl.setAttribute('class', 'comments')
 
+    let removeCommentBtnEl
+
     //this fixed problem for comment creating dynamic li creation
     for (const comment of postParam.comments) {
-        const liEl = document.createElement('li')
-        liEl.textContent = comment.content
-        ulEl.append(liEl)
+
+        if (comment.id === undefined) { //this somehow worked if an element is removed just go to the else
+            continue
+        }
+
+        //for all that are not removed yet and stay in page
+        else {
+
+            const liEl = document.createElement('li')
+            liEl.textContent = comment.content
+
+            removeCommentBtnEl = document.createElement('button')
+            removeCommentBtnEl.setAttribute('class', 'remove-comment-btn-post')
+            removeCommentBtnEl.textContent = 'x'
+
+            ulEl.append(liEl, removeCommentBtnEl)
+        }
+
     }
 
     //appending things
     formEl.append(inputEl, btnFormEl)
     divEl.append(spanEl, btnEl)
-    articleEl.append(h2El, imgEl, divEl, ulEl, formEl)
+    articleEl.append(h2El, removeBtnEl ,imgEl, divEl, ulEl, formEl)
     sectionPostEl.append(articleEl)
 
     let inputValue
@@ -258,11 +318,27 @@ function renderPostItem(postParam) {
     btnEl.addEventListener('click', function(event) {
 
         event.preventDefault()
-        
         addLikeFromInput(postParam)
+
         render()
 
     })
+
+    //event listener for remove Item from post
+    removeBtnEl.addEventListener('click', function(event) {
+
+        event.preventDefault()
+        removeItemFromPost(postParam)
+
+    })
+
+    //event listener for remove comment from post
+    // removeCommentBtnEl.addEventListener('click', function(event) {
+
+    //     event.preventDefault()
+    //     removeCommentFromPost(postParam)
+        
+    // })
 
 }
 

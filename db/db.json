@@ -8,37 +8,15 @@
     },
     {
       "id": 2,
-      "title": "Coder cats",
+      "title": "Coder cats 1",
       "likes": 5,
       "image": "./assets/coder-cat.jpeg"
     },
     {
       "id": 3,
-      "title": "Dog who is coding js",
-      "likes": 17,
-      "image": "./assets/coder-dog.png"
-    },
-    {
-      "id": 4,
-      "title": "Dog",
-      "likes": 27,
-      "image": "./assets/coder-dog.png"
-    },
-    {
-      "id": 5,
-      "title": "inter",
-      "likes": 222,
-      "image": "./assets/image-placeholder.jpg",
-      "comments": [
-        {
-          "id": 13,
-          "content": "interista",
-          "imageId": 5
-        }
-      ]
-    },
-    {
-      "id": 6
+      "title": "Coder cats 2",
+      "likes": 15,
+      "image": "./assets/coder-cat.jpeg"
     }
   ],
   "comments": [
@@ -68,44 +46,9 @@
       "id": 5
     },
     {
-      "imageId": 3,
-      "content": "Hes a good boy!!",
-      "id": 6
-    },
-    {
-      "imageId": 3,
-      "content": "Hes a good boy!!",
-      "id": 7
-    },
-    {
-      "imageId": 4,
-      "content": "Hes a good boy!!",
-      "id": 8
-    },
-    {
-      "imageId": 4,
-      "content": "Hes a good boy!!",
-      "id": 9
-    },
-    {
-      "id": 10,
-      "content": "owwffw",
-      "imageId": 1
-    },
-    {
-      "id": 11,
-      "content": "wffwfw",
-      "imageId": 1
-    },
-    {
-      "id": 12,
-      "content": "fwffw",
-      "imageId": 4
-    },
-    {
-      "id": 14,
-      "content": "ojooj",
-      "imageId": 5
+      "id": 6,
+      "content": "good cat",
+      "imageId": 3
     }
   ]
 }
