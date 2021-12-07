@@ -30,6 +30,18 @@
       "likes": 22,
       "image": "./assets/image-placeholder.jpg",
       "id": 5
+    },
+    {
+      "title": "jioejoiefpjo",
+      "likes": 333,
+      "image": "./assets/image-placeholder.jpg",
+      "id": 6
+    },
+    {
+      "title": "ojjo",
+      "likes": 222,
+      "image": "./assets/image-placeholder.jpg",
+      "id": 7
     }
   ],
   "comments": [
@@ -147,6 +159,31 @@
       "content": "okpo",
       "imageId": 5,
       "id": 30
+    },
+    {
+      "content": "oojojo",
+      "imageId": 5,
+      "id": 31
+    },
+    {
+      "content": "ppoj",
+      "imageId": 6,
+      "id": 32
+    },
+    {
+      "content": "jopoj",
+      "imageId": 6,
+      "id": 33
+    },
+    {
+      "content": "m;mll;",
+      "imageId": 6,
+      "id": 34
+    },
+    {
+      "content": "oojojo",
+      "imageId": 6,
+      "id": 35
     }
   ]
 }
