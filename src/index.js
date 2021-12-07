@@ -1,7 +1,6 @@
 //Global Variables to get accesed everywhere in the app
 const sectionPostEl = document.querySelector('section.image-container')
 
-
 //--------------------------------------STATE OBJECT---------------------------------------------------
 
 const state = {
@@ -14,7 +13,7 @@ const state = {
 //----------------------------------------END OF STATE OBJECT--------------------------------------------------------
 
 
-//--------------------------------SERVER FUNCTIONS---------------------------------------------------------------------
+//----------------------------------------SERVER FUNCTIONS---------------------------------------------------------------------
 
 // getImagesDataFromServer :: () => Promise<todos: array> this function gets all images array stores in the state
 function getImagesDataFromServer() {
@@ -37,9 +36,7 @@ function getCommentsDataFromServer() {
 }
 
 //this function adds each individual comment when you click small btn to the server
-function addCommentCreateToServer(commentsParam) {
-
-    // for (const element of commentsArrayParam) {
+function addCommentToServer(commentsParam) {
 
         return fetch('http://localhost:3000/comments', {
 
@@ -54,10 +51,6 @@ function addCommentCreateToServer(commentsParam) {
         }).then(function (resp) {
             return resp.json()
         })
-
-
-
-    // }
 
 }
 
@@ -84,20 +77,16 @@ function addItemFromFormToServer(imagesObjectParam) {
 function removeItemFromServer(itemParam) {
 
     fetch(`http://localhost:3000/images/${itemParam.id}`, {
-
         method: 'DELETE'
-
     })
 
 }
 
 //this function deletes comments from the server wich is user inputed from the x button on the page
-function removeCommentFromServer(itemParam, commentParam) {
+function removeCommentFromServer(itemParam) {
 
     fetch(`http://localhost:3000/comments/${itemParam.id}`, {
-
         method: 'DELETE'
-
     })
 
 }
@@ -108,34 +97,18 @@ function removeCommentFromServer(itemParam, commentParam) {
 //---------------------------------HELPER FUNCTIONS---------------------------------------------------------------------------
 
 //this function add coments from clicking the small btn in the post and ads it to the state then rerenders
-function addCommentFromForm(formParam, formValueParam) { //removed formparam
+function addCommentFromForm(formObjectParam, commentParam) { //removed formparam
 
-    let objectCommentsAdd = {
-        // id: state.comments.length + 1,
-        content: formValueParam,
-        imageId: formParam.id
+    let addComment = {
+        content: commentParam,
+        imageId: formObjectParam.id
     }
 
-    // let objectForm = {
-    //     id: formParam.id,
-    //     title: formParam.title,
-    //     likes: formParam.likes,
-    //     image: formParam.image,
-    //     comments: [
-    //         objectCommentsAdd
-    //     ]
-
-    // }
-
-
-    addCommentCreateToServer(objectCommentsAdd).then(function(comment) {
-
-        formParam.comments.push(comment)
+    addCommentToServer(addComment).then(function(comment) {
+        formObjectParam.comments.push(comment)
         state.comments.push(comment)  //remove one
         render()
-
-    }) //this calls the function to update the server
-
+    })
 
 }
 
@@ -158,9 +131,7 @@ function addCommentFromForm(formParam, formValueParam) { //removed formparam
 
 //this function is called with arguemnts when the btn click heart to do the up and down the likes state property
 function addLikeFromInput(likesParamFromArray) {
-
     likesParamFromArray.likes += 1
-
 }
 
 //this function is called with arguments when the btn x is clicked to remove the post from item in renderPostItem function
@@ -173,9 +144,6 @@ function removeItemFromPost(arrayParam) {
     delete arrayParam.id, arrayParam.title, delete arrayParam.likes, delete arrayParam.comments
     delete state.comments[arrayParam.id - 1]
     
-    //update the server by removing this entry
-    // removeItemFromServer(arrayParam)
-
     //rerender the page
     render()
 
@@ -188,11 +156,7 @@ function removeCommentFromPost(arrayParam) {
     removeCommentFromServer(arrayParam)
 
     //update the state
-    delete arrayParam.comments[0]
-    // delete state.comments[arrayParam.id - 1]
-    
-    //update the server by removing this entry
-    // removeItemFromServer(arrayParam)
+    delete arrayParam.comments
 
     //rerender the page
     render()
@@ -201,9 +165,7 @@ function removeCommentFromPost(arrayParam) {
 
 //this function filters id to remove comment in state as a helper function
 function getFilteredIdComments() {
-
     state.images = images.comments.filter(comment => comment.id !== id)
-
 }
 
 //---------------------------------END OF HELPER FUNCTIONS---------------------------------------------------------
@@ -269,24 +231,16 @@ function renderPostItem(postParam) {
     btnFormEl.setAttribute('class', 'btn-element')
     btnFormEl.textContent = 'Post'
 
-    // const removeCommentBtnEl = document.createElement('button')
-    // removeCommentBtnEl.setAttribute('class', 'remove-comment-btn-post')
-    // removeCommentBtnEl.textContent = 'x'
-
     const ulEl = document.createElement('ul')
     ulEl.setAttribute('class', 'comments')
 
-
-    //this fixed problem for comment creating dynamic li creation
     for (const comment of postParam.comments) {
 
-        if (comment.id === undefined) { //this somehow worked if an element is removed just go to the else
+        if (comment.id === undefined) {
             continue
-        } //move addevent listener isnide the loop
+        } 
 
-        //for all that are not removed yet and stay in page
         else {
-
             const liEl = document.createElement('li')
             liEl.textContent = comment.content
 
@@ -303,7 +257,6 @@ function renderPostItem(postParam) {
             })
 
             ulEl.append(liEl, removeCommentBtnEl)
-
         }
 
     }
@@ -314,43 +267,31 @@ function renderPostItem(postParam) {
     articleEl.append(h2El, removeBtnEl ,imgEl, divEl, ulEl, formEl)
     sectionPostEl.append(articleEl)
 
+    //val wich is neeeded to catch the input value for comment adding
     let inputValue
 
-    //events listeners
+    //events listeners for FORM SUBMIT IN THE COMMENT adding
     formEl.addEventListener('submit', function(event) {
-
         event.preventDefault()
 
         inputValue = formEl.comment.value
         addCommentFromForm(postParam, inputValue)
-        
     })
 
-    //event listener for like button
+    //event listener for like button, increasing etc like in social media
     btnEl.addEventListener('click', function(event) {
-
         event.preventDefault()
+
         addLikeFromInput(postParam)
-
         render()
-
     })
 
-    //event listener for remove Item from post
+    //event listener for remove Item from post 
     removeBtnEl.addEventListener('click', function(event) {
-
         event.preventDefault()
+
         removeItemFromPost(postParam)
-
     })
-
-    // // event listener for remove comment from post
-    // removeCommentBtnEl.addEventListener('click', function(event) {
-
-    //     event.preventDefault()
-    //     removeCommentFromPost(postParam)
-        
-    // })
 
 }
 
@@ -361,6 +302,7 @@ function renderForm() {
     const divEl = document.createElement('div')
     divEl.setAttribute('class', 'post-form')
 
+    //
     const h3El = document.createElement('h3')
     h3El.setAttribute('class', 'post-form-header')
     h3El.textContent = 'New Post'
@@ -404,9 +346,6 @@ function renderForm() {
     divEl.append(h3El, formEl)
     sectionPostEl.append(divEl)
 
-    //values for getting input values from user
-    let inputElValue1, inputElValue2, inputElValue3, inputElValue4
-
     // event listeners
     formEl.addEventListener('submit', function(event) {
 
@@ -418,17 +357,13 @@ function renderForm() {
            image: formEl.image.value
         }
 
-        // inputElValue1 = formEl.title.value
-        // inputElValuuee2 = parseInt(formEl.likes.value)
-        // inputElValue3 = formEl.comment.value
-        // inputElValue4 = formEl.image.val
-
-
         addItemFromFormToServer(inputObject).then(function(image) {
+
             state.images.push(image)
             image.comments = []
 
             render()
+
         })
 
     })
@@ -456,7 +391,6 @@ getCommentsDataFromServer().then(function (commentsFromServer) {
     state.comments = commentsFromServer
     render()
 })
-
 
 //CALLING RENDER
 // This happens before the fetch is done and fetch requeires some ms to load the data
