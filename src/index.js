@@ -61,24 +61,30 @@ function addPostToServer(imagesObjectParam) {
 }
 
 //this function deletes item from the server wich is user inputed from the x button on the page
-function removePostFromServer(imageParamIndex) {
+function removePostFromServer(imageParam) {
 
-    fetch(`http://localhost:3000/images/${imageParamIndex}`, {
+    return fetch(`http://localhost:3000/images/${imageParam.id}`, {
+
         method: 'DELETE'
+
+    }).then(function(resp) {
+        return resp.json()
     })
 
 }
 
 //this function deletes comments from the server wich is user inputed from the x button on the page
-function removeCommentFromServer(imageParamIndex) {
+function removeCommentFromServer(imageParam) {
 
-    fetch(`http://localhost:3000/comments/${imageParamIndex}`, {
+    fetch(`http://localhost:3000/comments/${imageParam.id}`, {
         method: 'DELETE'
+    }).then(function(resp) {
+        return resp.json()
     })
 
 }
 
-//-------------------------------------------END OF SERVER FUNCTIONS------------------------------------------------------------------
+//----------------------------------------------END OF SERVER FUNCTIONS------------------------------------------------------------------
 
 
 //----------------------------------------------HELPER FUNCTIONS---------------------------------------------------------------------------
@@ -124,29 +130,23 @@ function addLikeToState(likesParamFromArray) {
 //this function is called with arguments when the btn x is clicked to remove the post from item in renderPostItem function
 function removePostFromState(imageParam) {
 
-    //update the state
-    delete imageParam.id, imageParam.title, delete imageParam.likes, delete imageParam.comments
-    
     //update the server by removing this entry here we have imageParam wich is OBJECT OF IMAGE in IMAGES
-    removePostFromServer(imageParam.id)
-    
-    //rerender the page
-    render()
+    removePostFromServer(imageParam).then(function(post) {
+        delete imageParam.id, imageParam.title, imageParam.likes, imageParam.comments
+        render() //rerender the page
+    })
 
 } 
 
 //this function is called with arguments when the btn x is clicked to remove the comment from post  in renderPostItem function
 function removeCommentFromState(imageParam) {
 
-    //update the state
-    delete imageParam.comments[imageParam.id]
-
-    
+    //this is an object passed when the function is called by arguments
     //update the server by removing this entry
-    removeCommentFromServer(imageParam.id) //this is an object passed when the function is called by arguments
-
-    //rerender the page
-    render()
+    removeCommentFromServer(imageParam).then(function (image) {
+        delete imageParam.comments[imageParam.id]   //update the state
+        render() //rerender the page
+    })
 
 }
 
