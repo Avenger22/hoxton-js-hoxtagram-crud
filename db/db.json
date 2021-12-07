@@ -26,13 +26,13 @@
     },
     {
       "id": 5,
-      "title": "Dog who is interista",
-      "likes": "2389",
+      "title": "inter",
+      "likes": 222,
       "image": "./assets/image-placeholder.jpg",
       "comments": [
         {
-          "id": 10,
-          "content": "Inter champion of italy",
+          "id": 13,
+          "content": "interista",
           "imageId": 5
         }
       ]
@@ -88,13 +88,23 @@
       "id": 9
     },
     {
-      "id": 13,
-      "content": "opjeojeoje",
-      "imageId": 5
+      "id": 10,
+      "content": "owwffw",
+      "imageId": 1
     },
     {
-      "id": 15,
-      "content": "joppoj",
+      "id": 11,
+      "content": "wffwfw",
+      "imageId": 1
+    },
+    {
+      "id": 12,
+      "content": "fwffw",
+      "imageId": 4
+    },
+    {
+      "id": 14,
+      "content": "ojooj",
       "imageId": 5
     }
   ]

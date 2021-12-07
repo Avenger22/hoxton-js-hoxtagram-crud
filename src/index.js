@@ -37,7 +37,7 @@ function getCommentsDataFromServer() {
 }
 
 //this function adds each individual comment when you click small btn to the server
-function addCommentUpdateToServer(commentsParam) {
+function addCommentCreateToServer(commentsParam) {
 
     // for (const element of commentsArrayParam) {
 
@@ -95,7 +95,7 @@ function addItemFromFormToServer(imagesObjectParam) {
 function addCommentFromForm(formParam, formValueParam) { //removed formparam
 
     let objectCommentsAdd = {
-        id: state.comments.length += 1,
+        id: state.comments.length + 1,
         content: formValueParam,
         imageId: formParam.id
     }
@@ -114,27 +114,29 @@ function addCommentFromForm(formParam, formValueParam) { //removed formparam
     formParam.comments.push(objectCommentsAdd)
     state.comments.push(objectCommentsAdd) 
 
-    addCommentUpdateToServer(objectCommentsAdd) //this calls the function to update the server
+    addCommentCreateToServer(objectCommentsAdd) //this calls the function to update the server
 
     render() //rerender the page after updating state,server then you do always this
 
 }
 
 //this function add item form form in the page from clicking  the form submit in the page and ads it to the state then rerenders
-function addItemFromFormToState(inputParam1, inputParam2, inputParam3, inputParam4) {
+function addItemFromFormToState(inputParam1, inputParam2, inputParam3, inputParam4) { //these 4 params are passed form renderForm when an form btn is sumbited and i use those values here
 
     // let idValue = state.images.length + 1
+
     let objectItemImages = {
         // id: state.images.length += 1,
         id: state.images.length + 1,
         title: inputParam1,
         likes: inputParam2,
         image: inputParam4,
+
         comments: [
             {
-            id: state.comments.length += 1,
+            id: state.comments.length + 1,
             content: inputParam3,
-            imageId: state.images[state.images.length - 1].id + 1
+            imageId: state.images[state.images.length - 1].id + 1 //refreshing added an empty item because of this now removed fixed
             },
         ]
     }
@@ -144,7 +146,7 @@ function addItemFromFormToState(inputParam1, inputParam2, inputParam3, inputPara
 
     //we also push it to this array comments in the state object
     let objectItemComments = {
-        id: state.comments.length += 1,
+        id: state.comments.length + 1,
         content: inputParam3,
         imageId: state.images[state.images.length - 1].id + 1
     }
@@ -156,6 +158,13 @@ function addItemFromFormToState(inputParam1, inputParam2, inputParam3, inputPara
 
     //rendering after updating state, and updating server then rerender always
     render()
+
+}
+
+//this function is called with arguemnts when the btn click heart to do the up and down the likes state property
+function addLikeFromInput(likesParamFromArray) {
+
+    likesParamFromArray.likes += 1
 
 }
 
@@ -243,7 +252,17 @@ function renderPostItem(postParam) {
         inputValue = formEl.comment.value
         addCommentFromForm(postParam, inputValue)
         
-      })
+    })
+
+    //event listener for like button
+    btnEl.addEventListener('click', function(event) {
+
+        event.preventDefault()
+        
+        addLikeFromInput(postParam)
+        render()
+
+    })
 
 }
 
@@ -306,7 +325,7 @@ function renderForm() {
         event.preventDefault()
 
         inputElValue1 = formEl.title.value
-        inputElValue2 = formEl.likes.value
+        inputElValue2 = parseInt(formEl.likes.value)
         inputElValue3 = formEl.comment.value
         inputElValue4 = formEl.image.value
 
