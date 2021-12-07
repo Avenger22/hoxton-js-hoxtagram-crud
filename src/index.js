@@ -1,13 +1,13 @@
 //Global Variables to get accesed everywhere in the app
 const sectionPostEl = document.querySelector('section.image-container')
 
-//------------------------------------------- STATE OBJECT---------------------------------------------------
+//------------------------------------------------STATE OBJECT---------------------------------------------------
 
 const state = {
     images: []
 }
 
-//-----------------------------------------END OF STATE OBJECT--------------------------------------------------------
+//----------------------------------------------END OF STATE OBJECT--------------------------------------------------------
 
 
 //-----------------------------------------------SERVER FUNCTIONS---------------------------------------------------------------------
@@ -61,18 +61,18 @@ function addPostToServer(imagesObjectParam) {
 }
 
 //this function deletes item from the server wich is user inputed from the x button on the page
-function removePostFromServer(imageParam) {
+function removePostFromServer(imageParamIndex) {
 
-    fetch(`http://localhost:3000/images/${imageParam.id}`, {
+    fetch(`http://localhost:3000/images/${imageParamIndex}`, {
         method: 'DELETE'
     })
 
 }
 
 //this function deletes comments from the server wich is user inputed from the x button on the page
-function removeCommentFromServer(itemParam) {
+function removeCommentFromServer(imageParamIndex) {
 
-    fetch(`http://localhost:3000/comments/${itemParam.id}`, {
+    fetch(`http://localhost:3000/comments/${imageParamIndex}`, {
         method: 'DELETE'
     })
 
@@ -81,7 +81,7 @@ function removeCommentFromServer(itemParam) {
 //-------------------------------------------END OF SERVER FUNCTIONS------------------------------------------------------------------
 
 
-//----------------------------------------HELPER FUNCTIONS---------------------------------------------------------------------------
+//----------------------------------------------HELPER FUNCTIONS---------------------------------------------------------------------------
 
 //this function add coments from clicking the small btn in the post and ads it to the state then rerenders
 function addCommentToState(formObjectParam, commentParam) { //removed formparam
@@ -124,12 +124,11 @@ function addLikeToState(likesParamFromArray) {
 //this function is called with arguments when the btn x is clicked to remove the post from item in renderPostItem function
 function removePostFromState(imageParam) {
 
-    //update the server by removing this entry here we have imageParam wich is OBJECT OF IMAGE in IMAGES
-    removePostFromServer(imageParam)
-
     //update the state
     delete imageParam.id, imageParam.title, delete imageParam.likes, delete imageParam.comments
-    delete state.comments[imageParam.id - 1]
+    
+    //update the server by removing this entry here we have imageParam wich is OBJECT OF IMAGE in IMAGES
+    removePostFromServer(imageParam.id)
     
     //rerender the page
     render()
@@ -139,11 +138,12 @@ function removePostFromState(imageParam) {
 //this function is called with arguments when the btn x is clicked to remove the comment from post  in renderPostItem function
 function removeCommentFromState(imageParam) {
 
-    //update the server by removing this entry
-    removeCommentFromServer(imageParam)
-
     //update the state
-    delete imageParam.comments
+    delete imageParam.comments[imageParam.id]
+
+    
+    //update the server by removing this entry
+    removeCommentFromServer(imageParam.id) //this is an object passed when the function is called by arguments
 
     //rerender the page
     render()
@@ -151,8 +151,8 @@ function removeCommentFromState(imageParam) {
 }
 
 //this function filters id to remove comment in state as a helper function
-function getFilteredIdComments() {
-    state.images = images.comments.filter(comment => comment.id !== id)
+function getFilteredIdComments(indexParam) {
+    return state.images = images[indexParam].comments.filter(comment => comment.id !== id)
 }
 
 //-----------------------------------------END OF HELPER FUNCTIONS---------------------------------------------------------
@@ -340,7 +340,7 @@ function renderForm() {
         }
 
         //very crucial, we get things from server then we render, .then promise etc
-        addPostToServer(inputObject).then(function(image) {
+        addPostToServer(inputObject).then(function(image) { //here we dont use addPostToForm so this works better in this case
 
             state.images.push(image)
             image.comments = [] //empty array so that is auto created when each post is created and rendered
@@ -363,8 +363,8 @@ function render() {
 
 
 //FETCHING AND STORING DATA FROM SERVER TO STATE both arrays from json server
-getImagesDataFromServer().then(function (imagesFromServer) {
-    state.images = imagesFromServer
+getImagesDataFromServer().then(function (imagesArrayFromServer) {
+    state.images = imagesArrayFromServer
     render()
 })
 
