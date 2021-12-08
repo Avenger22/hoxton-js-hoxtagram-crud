@@ -153,6 +153,14 @@ img {
   padding-bottom: 70px;
 }
 
+.comments-ul-form {
+  display: grid;
+  grid-template-columns: 0.9fr 0.1fr;
+  grid-gap: 10px;
+  list-style: none;
+  place-items: start;
+}
+
 .post-form {
   display: grid;
   grid-template-rows: 0.1fr 0.9fr;

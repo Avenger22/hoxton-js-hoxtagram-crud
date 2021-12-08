@@ -27,29 +27,9 @@
   ],
   "comments": [
     {
-      "id": 1,
-      "content": "What a cute dog!",
-      "imageId": 1
-    },
-    {
-      "id": 2,
-      "content": "He has the paws for this!",
-      "imageId": 2
-    },
-    {
       "id": 3,
       "content": "Someone's in trouble!",
       "imageId": 2
-    },
-    {
-      "imageId": 1,
-      "content": "Funny dog!!",
-      "id": 4
-    },
-    {
-      "imageId": 1,
-      "content": "Hes a good boy!!",
-      "id": 5
     },
     {
       "content": "opopojp",
@@ -70,6 +50,21 @@
       "content": "joejopeoj",
       "imageId": 3,
       "id": 9
+    },
+    {
+      "content": "ojojoj",
+      "imageId": 2,
+      "id": 10
+    },
+    {
+      "content": "pojop",
+      "imageId": 3,
+      "id": 11
+    },
+    {
+      "content": "jppoj",
+      "imageId": 3,
+      "id": 12
     }
   ]
 }
