@@ -117,17 +117,6 @@ function increaseLikeToState(likesParamFromArray) {
     likesParamFromArray.likes += 1
 }
 
-//this function is called with arguments when the btn x is clicked to remove the post from item in renderPostItem function
-function deletePostFromState(imageParam) {
-
-    //update the server by removing this entry here we have imageParam wich is OBJECT OF IMAGE in IMAGES
-    deletePostFromServer(imageParam).then(function(post) {
-        state.images = state.images.filter(image => image.id !== imageParam.id)
-        render() //rerender the page
-    })
-
-} 
-
 //this function listen event when i submit the form with ading a new post to the page
 function listenToFormSubmitNewPost() {
     
@@ -185,9 +174,9 @@ function renderPostItem(imagesObjectParam) {
     h2El.setAttribute('class', 'title')
     h2El.textContent = imagesObjectParam.title
 
-    const removeBtnEl = document.createElement('button')
-    removeBtnEl.setAttribute('class', 'remove-btn-post')
-    removeBtnEl.textContent = 'X'
+    const removePostBtnEl = document.createElement('button')
+    removePostBtnEl.setAttribute('class', 'remove-btn-post')
+    removePostBtnEl.textContent = 'X'
 
     const imgEl = document.createElement('img')
     imgEl.setAttribute('class', 'image')
@@ -255,7 +244,7 @@ function renderPostItem(imagesObjectParam) {
     //appending things
     formEl.append(inputEl, btnFormEl)
     divEl.append(spanEl, btnEl)
-    articleEl.append(h2El, removeBtnEl ,imgEl, divEl, ulEl, formEl)
+    articleEl.append(h2El, removePostBtnEl ,imgEl, divEl, ulEl, formEl)
     sectionPostEl.append(articleEl)
 
     //val wich is neeeded to catch the input value for comment adding
@@ -278,15 +267,17 @@ function renderPostItem(imagesObjectParam) {
     })
 
     //event listener for remove Item from post 
-    removeBtnEl.addEventListener('click', function(event) {
+    removePostBtnEl.addEventListener('click', function(event) {
         event.preventDefault()
 
+        //deletes post form server
         deletePostFromServer(imagesObjectParam.id)
 
-        deletePostFromState(imagesObjectParam.id)
+        //deletes post from state
+        state.images = state.images.filter(image => image.id !== imagesObjectParam.id)
 
-        // render
-      render()
+        // rerender
+        render()
     })
 
 }
