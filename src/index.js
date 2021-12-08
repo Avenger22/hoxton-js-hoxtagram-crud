@@ -1,5 +1,7 @@
 //Global Variables to get accesed everywhere in the app
 const sectionPostEl = document.querySelector('section.image-container')
+const formPostEl = document.querySelector('form.post-form-el')
+
 
 //------------------------------------------------STATE OBJECT---------------------------------------------------
 
@@ -105,23 +107,6 @@ function addCommentToState(formObjectParam, commentParam) { //removed formparam
 
 }
 
-//this function add item form form in the page from clicking  the form submit in the page and ads it to the state then rerenders
-// function addItemFromFormToState(inputParam1, inputParam2, inputParam3, inputParam4) { //these 4 params are passed form renderForm when an form btn is sumbited and i use those values here
-
-
-//     let objectItemImages = {
-//         title: inputParam1,
-//         likes: inputParam2,
-//         image: inputParam4,
-//     }
-
-//     //variable pushed wich is the user form input new item
-
-
-//     //rendering after updating state, and updating server then rerender always
-
-// }
-
 //this function is called with arguemnts when the btn click heart to do the up and down the likes state property
 function addLikeToState(likesParamFromArray) {
     likesParamFromArray.likes += 1
@@ -155,6 +140,33 @@ function getFilteredIdComments(indexParam) {
     return state.images = images[indexParam].comments.filter(comment => comment.id !== id)
 }
 
+//this function listen event when i submit the form with ading a new post to the page
+function listenToFormSubmitNewPost() {
+    
+    formPostEl.addEventListener('submit', function(event) {
+
+        event.preventDefault()
+
+        const inputObject = {
+           title: formPostEl.title.value,
+           likes: parseInt(formPostEl.likes.value),
+           image: formPostEl.image.value
+        }
+
+        //very crucial, we get things from server then we render, .then promise etc
+        addPostToServer(inputObject).then(function(image) { //here we dont use addPostToForm so this works better in this case
+
+            state.images.push(image)
+            image.comments = [] //empty array so that is auto created when each post is created and rendered
+
+            render() //rerender the page
+
+        })
+
+    })
+
+}
+
 //-----------------------------------------END OF HELPER FUNCTIONS---------------------------------------------------------
 
 
@@ -167,7 +179,6 @@ function renderPosts(ImagesArrayParam) {
     sectionPostEl.innerHTML = ''
 
     //recreate using the array to create individual render each post basech on each object inside the array
-    renderForm()
 
     for (const image of ImagesArrayParam) {
         renderPostItem(image)
@@ -206,17 +217,17 @@ function renderPostItem(imagesObjectParam) {
     btnEl.textContent = '♥'
 
     const formEl = document.createElement('form')
-    formEl.setAttribute('class', 'form-section')
+    formEl.setAttribute('class', 'comment-form')
 
     const inputEl = document.createElement('input')
-    inputEl.setAttribute('class', 'input-element')
+    inputEl.setAttribute('class', 'comment-input')
     inputEl.setAttribute('name', 'comment')
     inputEl.setAttribute('required', 'true')
     inputEl.setAttribute('type', 'text')
     inputEl.placeholder = 'Add a comment ....'
 
     const btnFormEl = document.createElement('button')
-    btnFormEl.setAttribute('class', 'btn-element')
+    btnFormEl.setAttribute('class', 'comment-button')
     btnFormEl.textContent = 'Post'
 
     const ulEl = document.createElement('ul')
@@ -278,96 +289,28 @@ function renderPostItem(imagesObjectParam) {
 
 }
 
-//this function renders the form in the beginning of the page, to add new items wich is user input
-function renderForm() {
-    
-    //create the post header form to add things, update state and server rerender
-    const divEl = document.createElement('div')
-    divEl.setAttribute('class', 'post-form')
-
-    const h3El = document.createElement('h3')
-    h3El.setAttribute('class', 'post-form-header')
-    h3El.textContent = 'New Post'
-
-    const formEl = document.createElement('form')
-    formEl.setAttribute('class', 'post-form-el')
-
-    const inputEl1 = document.createElement('input')
-    inputEl1.setAttribute('class', 'post-form-input input-1')
-    inputEl1.setAttribute('name', 'title')
-    inputEl1.setAttribute('required', 'true')
-    inputEl1.setAttribute('type', 'text')
-    inputEl1.placeholder = 'Add a title: '
-
-    const inputEl2 = document.createElement('input')
-    inputEl2.setAttribute('class', 'post-form-input input-2')
-    inputEl2.setAttribute('name', 'likes')
-    inputEl2.setAttribute('required', 'true')
-    inputEl2.setAttribute('type', 'text')
-    inputEl2.placeholder = 'Add how many likes: '
-
-    // const inputEl3 = document.createElement('input')
-    // inputEl3.setAttribute('class', 'post-form-input input-3')
-    // inputEl3.setAttribute('name', 'comment')
-    // inputEl3.setAttribute('required', 'true')
-    // inputEl3.setAttribute('type', 'text')
-    // inputEl3.placeholder = 'Add a comment: '
-
-    const inputEl4 = document.createElement('input')
-    inputEl4.setAttribute('class', 'post-form-input input-4')
-    inputEl4.setAttribute('name', 'image')
-    inputEl4.setAttribute('required', 'true')
-    inputEl4.setAttribute('type', 'text')
-    inputEl4.placeholder = 'Add an image url: '
-
-    const btnEl = document.createElement('button')
-    btnEl.setAttribute('class', 'post-form-btn')
-    btnEl.textContent = 'Post'
-
-    formEl.append(inputEl1, inputEl2, inputEl4, btnEl)
-    divEl.append(h3El, formEl)
-    sectionPostEl.append(divEl)
-
-    // event listeners for form input, when all is sumbited the form in the beginning
-    formEl.addEventListener('submit', function(event) {
-
-        event.preventDefault()
-
-        const inputObject = {
-           title: formEl.title.value,
-           likes: parseInt(formEl.likes.value),
-           image: formEl.image.value
-        }
-
-        //very crucial, we get things from server then we render, .then promise etc
-        addPostToServer(inputObject).then(function(image) { //here we dont use addPostToForm so this works better in this case
-
-            state.images.push(image)
-            image.comments = [] //empty array so that is auto created when each post is created and rendered
-
-            render() //rerender the page
-
-        })
-
-    })
-
-}
-
 //the main function calls everything and makes state and rerendering works
 function render() {
     console.log('rendering with state:', state)
     renderPosts(state.images) //here we pass the array images 
 }
 
+//this main function groups everything to load the app
+function init() {
+
+    //FETCHING AND STORING DATA FROM SERVER TO STATE both arrays from json server
+    getImagesDataFromServer().then(function (imagesArrayFromServer) {
+        state.images = imagesArrayFromServer
+        render()
+    })
+
+    render()
+    listenToFormSubmitNewPost()
+
+}
 //-------------------------------------------END OF RENDER FUNCTIONS------------------------------------------------------
 
 
-//FETCHING AND STORING DATA FROM SERVER TO STATE both arrays from json server
-getImagesDataFromServer().then(function (imagesArrayFromServer) {
-    state.images = imagesArrayFromServer
-    render()
-})
+//------------------------------------------------CALLING INIT------------------------------------------------------------------
 
-//---------------------------------------CALLING RENDER------------------------------------------------------------------
-// This happens before the fetch is done and fetch requeires some ms to load the data
-render()
+init()

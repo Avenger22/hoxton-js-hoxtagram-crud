@@ -146,13 +146,21 @@ img {
   font-size: 1rem;
 }
 
+/*created by me */
+.container-form {
+  display: grid;
+  place-content: center;
+  padding-bottom: 70px;
+}
+
 .post-form {
   display: grid;
-  grid-template-rows: 0.5fr 0.5fr;
+  grid-template-rows: 0.1fr 0.9fr;
   place-items: center;
-  grid-gap: 10px;
+  place-content: center;
+  grid-gap: 20px;
 
-  height: auto;
+  height: 200px;
   width: 250px;
   border: 2px solid #b1a6a6;
 } 
@@ -164,7 +172,7 @@ img {
 
 .post-form .post-form-el {
   display: grid;
-  grid-template-rows: 0.2fr 0.2fr 0.2fr 0.2fr 0.2fr;
+  grid-template-rows: 0.25fr 0.25fr 0.25fr 0.25fr;
   grid-gap: 10px;
 }
 

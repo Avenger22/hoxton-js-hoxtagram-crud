@@ -11,6 +11,18 @@
       "title": "Coder cats",
       "likes": 5,
       "image": "./assets/coder-cat.jpeg"
+    },
+    {
+      "title": "poopkkop",
+      "likes": 222,
+      "image": "./assets/image-placeholder.jpg",
+      "id": 3
+    },
+    {
+      "title": "jojo",
+      "likes": 22,
+      "image": "./assets/image-placeholder.jpg",
+      "id": 4
     }
   ],
   "comments": [
@@ -38,6 +50,26 @@
       "imageId": 1,
       "content": "Hes a good boy!!",
       "id": 5
+    },
+    {
+      "content": "opopojp",
+      "imageId": 1,
+      "id": 6
+    },
+    {
+      "content": "opopojp",
+      "imageId": 1,
+      "id": 7
+    },
+    {
+      "content": "oko",
+      "imageId": 2,
+      "id": 8
+    },
+    {
+      "content": "joejopeoj",
+      "imageId": 3,
+      "id": 9
     }
   ]
 }
