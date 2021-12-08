@@ -1,12 +1,6 @@
 {
   "images": [
     {
-      "id": 1,
-      "title": "Coder dog",
-      "likes": 7,
-      "image": "./assets/coder-dog.png"
-    },
-    {
       "id": 2,
       "title": "Coder cats",
       "likes": 5,
@@ -37,19 +31,9 @@
       "id": 8
     },
     {
-      "content": "joejopeoj",
-      "imageId": 3,
-      "id": 9
-    },
-    {
       "content": "ojojoj",
       "imageId": 2,
       "id": 10
-    },
-    {
-      "content": "pojop",
-      "imageId": 3,
-      "id": 11
     },
     {
       "content": "jppoj",

@@ -68,9 +68,9 @@ function createPostToServer(imagesObjectParam) {
 }
 
 //this function deletes item from the server wich is user inputed from the x button on the page
-function deletePostFromServer(imageParam) {
+function deletePostFromServer(imageIdParam) {
 
-    return fetch(`http://localhost:3000/images/${imageParam.id}`, {
+    return fetch(`http://localhost:3000/images/${imageIdParam}`, {
 
         method: 'DELETE'
 
@@ -122,16 +122,11 @@ function deletePostFromState(imageParam) {
 
     //update the server by removing this entry here we have imageParam wich is OBJECT OF IMAGE in IMAGES
     deletePostFromServer(imageParam).then(function(post) {
-        delete imageParam.id, imageParam.title, imageParam.likes, imageParam.comments
+        state.images = state.images.filter(image => image.id !== imageParam.id)
         render() //rerender the page
     })
 
 } 
-
-//this function filters id to remove comment in state as a helper function
-function getFilteredIdComments(indexParam) {
-    return state.images = images[indexParam].comments.filter(comment => comment.id !== id)
-}
 
 //this function listen event when i submit the form with ading a new post to the page
 function listenToFormSubmitNewPost() {
@@ -288,7 +283,7 @@ function renderPostItem(imagesObjectParam) {
 
         deletePostFromServer(imagesObjectParam.id)
 
-        deletePostFromState(imagesObjectParam)
+        deletePostFromState(imagesObjectParam.id)
 
         // render
       render()
