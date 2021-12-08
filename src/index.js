@@ -128,16 +128,6 @@ function deletePostFromState(imageParam) {
 
 } 
 
-//this function is called with arguments when the btn x is clicked to remove the comment from post  in renderPostItem function
-function deleteCommentFromState(imageCommentsArrayParam, commentIdParam) {
-
-    // delete comment on state
-    imageCommentsArrayParam = imageCommentsArrayParam.filter(function (targetComment) {
-        return targetComment.id !== commentIdParam
-    })
-
-}
-
 //this function filters id to remove comment in state as a helper function
 function getFilteredIdComments(indexParam) {
     return state.images = images[indexParam].comments.filter(comment => comment.id !== id)
@@ -254,8 +244,10 @@ function renderPostItem(imagesObjectParam) {
             //we delete it from server
             deleteCommentFromServer(comment.id)
 
-            //then we delete it form state based on response from server
-            deleteCommentFromState(imagesObjectParam.comments, comment.id)
+            // delete comment on state
+            imagesObjectParam.comments = imagesObjectParam.comments.filter(function (targetComment) {
+                return targetComment.id !== comment.id
+            })
         
             //rerender the page
             render()
@@ -314,7 +306,7 @@ function render() {
 function init() {
 
     render()
-    
+
     //FETCHING AND STORING DATA FROM SERVER TO STATE both arrays from json server
     getImagesDataFromServer().then(function (imagesArrayFromServer) {
         state.images = imagesArrayFromServer
